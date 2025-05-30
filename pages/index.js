@@ -1,41 +1,42 @@
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
-// import { getSortedPostsData } from "../lib/posts";
+import { getSortedPostsData } from "../lib/posts";
+import Date from "../components/date";
+import Link from "next/link";
 
-// export async function getStaticProps() {
-//   const allPostsData = getSortedPostsData();
-//   // const data = await fetch("https://jsonplaceholder.typicode.com/todos").then(
-//   //   (response) => response.json()
-//   // );
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  // const data = await fetch("https://jsonplaceholder.typicode.com/todos").then(
+  //   (response) => response.json()
+  // );
 
-//   return {
-//     props: {
-//       allPostsData,
-//       // data, // Uncomment this line if you want to use the fetched data
-//     },
-//   };
-// }
-
-export async function getServerSideProps(context) {
-  console.log("context", context);
   return {
     props: {
-      allPostsData: [
-        {
-          id: "ssg-ssr",
-          date: "2023-10-01",
-          title: "SSG and SSR",
-        },
-        {
-          id: "pre-rendering",
-          date: "2023-10-02",
-          title: "Pre-rendering and Data Fetching",
-        },
-      ],
+      allPostsData,
+      // data, // Uncomment this line if you want to use the fetched data
     },
   };
 }
+
+// export async function getServerSideProps(context) {
+//   return {
+//     props: {
+//       allPostsData: [
+//         {
+//           id: "ssg-ssr",
+//           date: "2023-10-01",
+//           title: "SSG and SSR",
+//         },
+//         {
+//           id: "pre-rendering",
+//           date: "2023-10-02",
+//           title: "Pre-rendering and Data Fetching",
+//         },
+//       ],
+//     },
+//   };
+// }
 
 export default function Home({ allPostsData }) {
   return (
@@ -55,11 +56,11 @@ export default function Home({ allPostsData }) {
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
+              <Link href={`/posts/${id}`}>{title}</Link>
               <br />
-              {id}
-              <br />
-              {date}
+              <small className={utilStyles.lightText}>
+                <Date dateString={date} />
+              </small>
             </li>
           ))}
           {/* {data.map((item) => (
