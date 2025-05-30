@@ -39,6 +39,7 @@ export async function getStaticProps() {
 // }
 
 export default function Home({ allPostsData }) {
+  console.log("test");
   return (
     <Layout home>
       <Head>
